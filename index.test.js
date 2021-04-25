@@ -34,6 +34,14 @@ describe(`ExtendablePromise: ${env}`, () => {
       promise.execute();
       expect(executorFunc).toHaveBeenCalledWith(expect.any(Function), expect.any(Function));
     });
+    test('should execute once', () => {
+      expect(executorFunc).not.toHaveBeenCalled();
+      promise.execute();
+      promise.execute();
+      promise.execute();
+      promise.execute();
+      expect(executorFunc).toHaveBeenCalledTimes(1);
+    });
     test('should return the promise', () => {
       expect(promise.execute()).toBe(promise);
     });
