@@ -12,7 +12,6 @@ const ø = enumerate`
 const isNativeFunction = func =>
   typeof func === 'function' && /\{\s+\[native code\]/.test(Function.prototype.toString.call(func));
 
-// Alternative solution: https://stackoverflow.com/questions/48158730/extend-javascript-promise-and-resolve-or-reject-it-inside-constructor
 class ExtendablePromise extends Promise {
   constructor(...args) {
     const lastArg = args[args.length - 1];
@@ -40,7 +39,7 @@ class ExtendablePromise extends Promise {
   }
 
   execute(...args) {
-    this[ø.executor](...args);
+    this[ø.executor](this[ø.resolve], this[ø.reject], ...args);
     return this;
   }
 

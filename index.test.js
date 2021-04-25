@@ -32,7 +32,7 @@ describe(`ExtendablePromise: ${env}`, () => {
     test('should execute the executor', () => {
       expect(executorFunc).not.toHaveBeenCalled();
       promise.execute();
-      expect(executorFunc).toHaveBeenCalled();
+      expect(executorFunc).toHaveBeenCalledWith(expect.any(Function), expect.any(Function));
     });
     test('should return the promise', () => {
       expect(promise.execute()).toBe(promise);
