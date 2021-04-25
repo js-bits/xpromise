@@ -8,7 +8,14 @@ const ø = enumerate`
   reject
 `;
 
+/**
+ * @class
+ * @extends {Promise}
+ */
 class ExtendablePromise extends Promise {
+  /**
+   * @param {Function} executor
+   */
   constructor(executor) {
     let resolve;
     let reject;
@@ -30,6 +37,10 @@ class ExtendablePromise extends Promise {
     return 'ExtendablePromise';
   }
 
+  /**
+   * @param {...any} args
+   * @returns {Promise}
+   */
   execute(...args) {
     if (this[ø.executor]) {
       this[ø.executor](this[ø.resolve], this[ø.reject], ...args);
@@ -38,11 +49,19 @@ class ExtendablePromise extends Promise {
     return this;
   }
 
+  /**
+   * @param {any} result
+   * @returns {Promise}
+   */
   resolve(...args) {
     this[ø.resolve](...args);
     return this;
   }
 
+  /**
+   * @param {Error} reason
+   * @returns {Promise}
+   */
   reject(...args) {
     this[ø.reject](...args);
     return this;
