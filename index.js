@@ -8,19 +8,8 @@ const ø = enumerate`
   reject
 `;
 
-// https://stackoverflow.com/questions/6598945/detect-if-function-is-native-to-browser
-const isNativeFunction = func =>
-  typeof func === 'function' && /\{\s+\[native code\]/.test(Function.prototype.toString.call(func));
-
 class ExtendablePromise extends Promise {
-  constructor(...args) {
-    const lastArg = args[args.length - 1];
-    if (isNativeFunction(lastArg)) {
-      // internal promise call
-      // eslint-disable-next-line constructor-super
-      return super(lastArg);
-    }
-
+  constructor(executor) {
     let resolve;
     let reject;
     super((...funcs) => {
@@ -59,5 +48,8 @@ class ExtendablePromise extends Promise {
     return this;
   }
 }
+
+// https://stackoverflow.com/a/60328122
+Object.defineProperty(ExtendablePromise, Symbol.species, { get: () => Promise });
 
 export default ExtendablePromise;
