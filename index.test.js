@@ -26,6 +26,13 @@ describe(`ExtendablePromise: ${env}`, () => {
       expect(typeof promise.reject).toEqual('function');
       expect(String(promise)).toEqual('[object ExtendablePromise]');
     });
+    describe('when an invalid executor is passed', () => {
+      test('should throw an error', () => {
+        expect(() => {
+          promise = new ExtendablePromise();
+        }).toThrow('Invalid executor type');
+      });
+    });
   });
 
   describe('#execute', () => {

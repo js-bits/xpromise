@@ -29,8 +29,11 @@ class ExtendablePromise extends Promise {
     this[ø.resolve] = resolve;
     this[ø.reject] = reject;
 
-    const [executor] = args;
-    this[ø.executor] = executor;
+    if (typeof executor === 'function') {
+      this[ø.executor] = executor;
+    } else {
+      throw new Error('Invalid executor type');
+    }
   }
 
   // eslint-disable-next-line class-methods-use-this
