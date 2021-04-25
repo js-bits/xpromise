@@ -27,4 +27,72 @@ describe(`ExtendablePromise: ${env}`, () => {
       expect(String(promise)).toEqual('[object ExtendablePromise]');
     });
   });
+
+  describe('#execute', () => {
+    test('should execute the executor', () => {
+      expect(executorFunc).not.toHaveBeenCalled();
+      promise.execute();
+      expect(executorFunc).toHaveBeenCalled();
+    });
+    test('should return the promise', () => {
+      expect(promise.execute()).toBe(promise);
+    });
+  });
+
+  describe('#resolve', () => {
+    describe('should resolve the promise', () => {
+      test('.then()', async () => {
+        expect.assertions(2);
+        setTimeout(() => {
+          promise.resolve(123);
+        }, 100);
+        return promise
+          .then(result => {
+            expect(result).toEqual(123);
+          })
+          .finally(result => {
+            expect(result).toBeUndefined();
+          });
+      });
+      test('await', async () => {
+        expect.assertions(1);
+        setTimeout(() => {
+          promise.resolve(123);
+        }, 100);
+        const result = await promise;
+        expect(result).toEqual(123);
+      });
+    });
+    test('should return the promise', () => {
+      expect(promise.resolve(123)).toBe(promise);
+    });
+  });
+
+  describe('#reject', () => {
+    describe('should reject the promise', () => {
+      test('.catch()', async () => {
+        expect.assertions(1);
+        setTimeout(() => {
+          promise.reject(new Error('rejected'));
+        }, 100);
+        await expect(promise).rejects.toThrow('rejected');
+      });
+      test('try/catch', async () => {
+        expect.assertions(2);
+        setTimeout(() => {
+          promise.reject(new Error('rejected'));
+        }, 100);
+        try {
+          await promise;
+        } catch (error) {
+          expect(error.message).toEqual('rejected');
+        } finally {
+          expect(promise).rejects.toThrow('rejected');
+        }
+      });
+    });
+    test('should return the promise', () => {
+      expect(promise.reject(123)).toBe(promise);
+    });
+  });
 });
