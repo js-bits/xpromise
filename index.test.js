@@ -92,7 +92,28 @@ describe(`ExtendablePromise: ${env}`, () => {
       });
     });
     test('should return the promise', () => {
+      promise.catch(() => {});
       expect(promise.reject(123)).toBe(promise);
+    });
+  });
+
+  describe('Promise static methods', () => {
+    test('Promise.all()', async () => {
+      expect.assertions(1);
+      const promise1 = Promise.resolve('abc');
+      const promise2 = true;
+      setTimeout(() => {
+        promise.resolve(234);
+      }, 100);
+      await expect(Promise.all([promise, promise1, promise2])).resolves.toEqual([234, 'abc', true]);
+    });
+    test('Promise.race()', async () => {
+      expect.assertions(1);
+      const promise1 = new Promise(() => {});
+      setTimeout(() => {
+        promise.reject(new Error('race rejected'));
+      }, 100);
+      await expect(Promise.race([promise, promise1])).rejects.toThrow('race rejected');
     });
   });
 });
