@@ -1,6 +1,6 @@
 # Extendable Promise
 
-Allows extension of JavaScript's standard, built-in `Promise` class.
+Allows extension of JavaScript's standard, built-in `Promise` class and decouples an asynchronous operation that ties an outcome to a promise from the constructor.
 
 ## Installation
 
