@@ -80,8 +80,8 @@ describe(`ExtendablePromise: ${env}`, () => {
         expect(result).toEqual(123);
       });
     });
-    test('should return the promise', () => {
-      expect(promise.resolve(123)).toBe(promise);
+    test('should return nothing', () => {
+      expect(promise.resolve(123)).toBeUndefined();
     });
   });
 
@@ -108,9 +108,9 @@ describe(`ExtendablePromise: ${env}`, () => {
         }
       });
     });
-    test('should return the promise', () => {
+    test('should return nothing', () => {
       promise.catch(() => {});
-      expect(promise.reject(123)).toBe(promise);
+      expect(promise.reject(123)).toBeUndefined();
     });
   });
 

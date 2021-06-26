@@ -43,9 +43,7 @@ class ExtendablePromise extends Promise {
    */
   execute(...args) {
     if (this[ø.executor]) {
-      const resolve = this.resolve.bind(this);
-      const reject = this.reject.bind(this);
-      this[ø.executor](resolve, reject, ...args);
+      this[ø.executor](this.resolve.bind(this), this.reject.bind(this), ...args);
       this[ø.executor] = undefined;
     }
     return this;
@@ -57,7 +55,7 @@ class ExtendablePromise extends Promise {
    */
   resolve(...args) {
     this[ø.resolve](...args);
-    return this;
+    // return this; // don't do this
   }
 
   /**
@@ -66,7 +64,9 @@ class ExtendablePromise extends Promise {
    */
   reject(...args) {
     this[ø.reject](...args);
-    return this;
+    // returning anything can lead to a subsequent exceptions
+    // for cases like promise.catch(xpromise.reject.bind(xpromise))
+    // return this; // don't do this
   }
 }
 
