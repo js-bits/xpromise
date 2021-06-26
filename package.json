@@ -1,6 +1,6 @@
 {
   "name": "@js-bits/xpromise",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Extendable Promise",
   "keywords": [
     "javascript",
