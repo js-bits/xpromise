@@ -43,7 +43,9 @@ class ExtendablePromise extends Promise {
    */
   execute(...args) {
     if (this[ø.executor]) {
-      this[ø.executor](this[ø.resolve], this[ø.reject], ...args);
+      const resolve = this.resolve.bind(this);
+      const reject = this.reject.bind(this);
+      this[ø.executor](resolve, reject, ...args);
       this[ø.executor] = undefined;
     }
     return this;
