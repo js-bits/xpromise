@@ -1,12 +1,9 @@
 /* eslint-disable max-classes-per-file */
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { jest } from '@jest/globals';
-import { cyan } from '@js-bits/log-in-color';
 import ExtendablePromise from './index.js';
 
-const env = cyan(`[${typeof window === 'undefined' ? 'node' : 'jsdom'}]`);
-
-describe(`ExtendablePromise: ${env}`, () => {
+describe(`ExtendablePromise`, () => {
   let executorFunc;
   let promise;
   beforeEach(() => {
