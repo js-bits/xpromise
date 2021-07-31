@@ -22,6 +22,12 @@ Import where you need it:
 import ExtendablePromise from '@js-bits/xpromise';
 ```
 
+or require for CommonJS:
+
+```javascript
+const ExtendablePromise = require('@js-bits/xpromise');
+```
+
 ## How to use
 
 ```javascript
@@ -43,5 +49,4 @@ myPromise.resolve(123);
 ## Notes
 
 - Does not include any polyfills, which means that Internet Explorer is not supported.
-- Requires [ECMAScript modules](https://nodejs.org/api/esm.html) to be enabled in Node.js environment. Otherwise, compile into a CommonJS module.
 - [Alternative solution](https://stackoverflow.com/questions/48158730/extend-javascript-promise-and-resolve-or-reject-it-inside-constructor)

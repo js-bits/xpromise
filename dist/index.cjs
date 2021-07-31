@@ -1,10 +1,16 @@
-import enumerate from '@js-bits/enumerate';
+'use strict';
+
+var enumerate = require('@js-bits/enumerate');
+
+function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
+
+var enumerate__default = /*#__PURE__*/_interopDefaultLegacy(enumerate);
 
 console.log(`xpromise import mode ${typeof require === 'undefined' ? 'esm' : 'cjs'}`);
 
 // pseudo-private properties emulation in order to avoid source code transpiling
 // TODO: replace with #privateField syntax when it gains wide support
-const ø = enumerate`
+const ø = enumerate__default['default']`
   executor
   resolve
   reject
@@ -75,4 +81,4 @@ class ExtendablePromise extends Promise {
 // https://stackoverflow.com/a/60328122
 Object.defineProperty(ExtendablePromise, Symbol.species, { get: () => Promise });
 
-export default ExtendablePromise;
+module.exports = ExtendablePromise;
