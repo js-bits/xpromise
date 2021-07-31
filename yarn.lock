@@ -528,7 +528,7 @@
     "@types/yargs" "^15.0.0"
     chalk "^4.0.0"
 
-"@js-bits/enumerate@^0.5.0":
+"@js-bits/enumerate@^0.5.1":
   version "0.5.1"
   resolved "https://registry.yarnpkg.com/@js-bits/enumerate/-/enumerate-0.5.1.tgz#d01e4821ace3af452bf971ac5ee289374d500bbb"
   integrity sha512-Gy0iU91+YRmTXlgSL2HWmyclUQgGxdUBe+n1O4M8WGiefb72vki9PPPExdyuaGwxJuXYB17c0lRd8GyMrlViEA==

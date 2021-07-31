@@ -2,6 +2,8 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { jest } from '@jest/globals';
 import ExtendablePromise from './index.js';
+// import ExtendablePromise from './dist/index.cjs';
+// const ExtendablePromise = require('./dist/index.cjs');
 
 describe(`ExtendablePromise`, () => {
   let executorFunc;
