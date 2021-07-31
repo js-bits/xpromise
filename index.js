@@ -1,7 +1,5 @@
 import enumerate from '@js-bits/enumerate';
 
-console.log(`xpromise import mode ${typeof require === 'undefined' ? 'esm' : 'cjs'}`);
-
 // pseudo-private properties emulation in order to avoid source code transpiling
 // TODO: replace with #privateField syntax when it gains wide support
 const ø = enumerate`

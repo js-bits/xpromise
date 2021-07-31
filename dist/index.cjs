@@ -6,8 +6,6 @@ function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'defau
 
 var enumerate__default = /*#__PURE__*/_interopDefaultLegacy(enumerate);
 
-console.log(`xpromise import mode ${typeof require === 'undefined' ? 'esm' : 'cjs'}`);
-
 // pseudo-private properties emulation in order to avoid source code transpiling
 // TODO: replace with #privateField syntax when it gains wide support
 const ø = enumerate__default['default']`
