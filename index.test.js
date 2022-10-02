@@ -55,6 +55,50 @@ describe('ExtendablePromise', () => {
           expect(promise).toBeUndefined();
         });
       });
+
+      describe('when extended', () => {
+        describe('when rejected in a constructor', () => {
+          test('should throw an async error', async () => {
+            expect.assertions(3);
+            class MyPromise extends ExtendablePromise {
+              constructor() {
+                super((resolve, reject) => {
+                  reject('async error');
+                });
+                this.execute();
+              }
+            }
+            promise = undefined;
+            let result = 'unchanged';
+            try {
+              promise = new MyPromise();
+              result = await promise;
+            } catch (error) {
+              expect(error).toEqual('async error');
+            }
+            expect(promise).toEqual(expect.any(ExtendablePromise));
+            expect(result).toEqual('unchanged');
+          });
+        });
+        describe('when resolved in a constructor', () => {
+          test('should return resolved value', async () => {
+            expect.assertions(2);
+            class MyPromise extends ExtendablePromise {
+              constructor() {
+                super(resolve => {
+                  resolve('async value');
+                });
+                this.execute();
+              }
+            }
+            promise = undefined;
+            promise = new MyPromise();
+            const result = await promise;
+            expect(promise).toEqual(expect.any(MyPromise));
+            expect(result).toEqual('async value');
+          });
+        });
+      });
     });
   });
 
