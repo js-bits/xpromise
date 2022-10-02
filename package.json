@@ -63,6 +63,6 @@
     "extends": "@js-bits/eslint-config/.eslintrc.json"
   },
   "dependencies": {
-    "@js-bits/enumerate": "^0.5.1"
+    "@js-bits/enumerate": "^0.8.0"
   }
 }
