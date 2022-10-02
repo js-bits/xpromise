@@ -71,7 +71,7 @@ class ExtendablePromise extends Promise {
    */
   resolve(...args) {
     this[ø.resolve](...args);
-    // return this; // don't do this
+    return this;
   }
 
   /**
@@ -80,9 +80,7 @@ class ExtendablePromise extends Promise {
    */
   reject(...args) {
     this[ø.reject](...args);
-    // returning anything can lead to a subsequent exceptions
-    // for cases like promise.catch(xpromise.reject.bind(xpromise))
-    // return this; // don't do this
+    return this;
   }
 }
 

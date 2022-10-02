@@ -135,8 +135,18 @@ describe('ExtendablePromise', () => {
         expect(result).toEqual(123);
       });
     });
-    test('should return nothing', () => {
-      expect(promise.resolve(123)).toBeUndefined();
+    test('should return promise instance', () => {
+      expect(promise.resolve(123)).toBe(promise);
+    });
+    describe('when bound to another promise', () => {
+      test('should return resolved promise', async () => {
+        expect.assertions(3);
+        const anotherPromise = Promise.resolve(234);
+        const result = await anotherPromise.then(promise.resolve.bind(promise));
+        await expect(anotherPromise).resolves.toEqual(234);
+        await expect(promise).resolves.toEqual(234);
+        expect(result).toEqual(234);
+      });
     });
   });
 
@@ -163,9 +173,33 @@ describe('ExtendablePromise', () => {
         }
       });
     });
-    test('should return nothing', () => {
-      promise.catch(() => {});
-      expect(promise.reject(123)).toBeUndefined();
+    test('should return promise instance', async () => {
+      expect.assertions(2);
+      expect(promise.reject('async error')).toBe(promise);
+      try {
+        await promise;
+      } catch (error) {
+        expect(error).toEqual('async error');
+      }
+    });
+    describe('when bound to another promise', () => {
+      test('should return rejected promise', async () => {
+        expect.assertions(4);
+        let reject;
+        const anotherPromise = new Promise((...args) => {
+          [, reject] = args;
+        });
+        reject('error');
+        let result;
+        try {
+          result = await anotherPromise.catch(promise.reject.bind(promise));
+        } catch (reason) {
+          expect(reason).toEqual('error');
+        }
+        await expect(anotherPromise).rejects.toEqual('error');
+        await expect(promise).rejects.toEqual('error');
+        expect(result).toBeUndefined();
+      });
     });
   });
 
