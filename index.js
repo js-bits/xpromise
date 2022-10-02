@@ -52,7 +52,14 @@ class ExtendablePromise extends Promise {
    */
   execute(...args) {
     if (this[ø.executor]) {
-      this[ø.executor](this.resolve.bind(this), this.reject.bind(this), ...args);
+      try {
+        this[ø.executor](this.resolve.bind(this), this.reject.bind(this), ...args);
+      } catch (cause) {
+        const error = new Error('Promise execution failed. See "cause" property for details');
+        error.cause = cause;
+        error.name = ERRORS.ExecutionError;
+        this.reject(error);
+      }
       this[ø.executor] = undefined;
     }
     return this;

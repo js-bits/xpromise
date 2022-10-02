@@ -75,6 +75,40 @@ describe('ExtendablePromise', () => {
     test('should return the promise', () => {
       expect(promise.execute()).toBe(promise);
     });
+
+    describe('when executed with error', () => {
+      test('should reject the promise', async () => {
+        expect.assertions(3);
+        expect(executorFunc).not.toHaveBeenCalled();
+        executorFunc.mockImplementation(() => {
+          throw new Error('Executor error');
+        });
+        promise.execute();
+        await expect(promise).rejects.toThrow('Promise execution failed. See "cause" property for details');
+        expect(executorFunc).toHaveBeenCalledWith(expect.any(Function), expect.any(Function));
+      });
+
+      describe('try/catch', () => {
+        test('should reject the promise', async () => {
+          expect.assertions(7);
+          expect(executorFunc).not.toHaveBeenCalled();
+          executorFunc.mockImplementation(() => {
+            throw new Error('Executor error');
+          });
+          let result;
+          try {
+            result = await promise.execute();
+          } catch (error) {
+            expect(error.name).toEqual('ExtendablePromise|ExecutionError');
+            expect(error.message).toEqual('Promise execution failed. See "cause" property for details');
+            expect(error.cause).toEqual(expect.any(Error));
+            expect(error.cause.message).toEqual('Executor error');
+          }
+          expect(result).toBeUndefined();
+          expect(executorFunc).toHaveBeenCalledWith(expect.any(Function), expect.any(Function));
+        });
+      });
+    });
   });
 
   describe('#resolve', () => {
