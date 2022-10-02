@@ -5,12 +5,13 @@ import ExtendablePromise from './index.js';
 // import ExtendablePromise from './dist/index.cjs';
 // const ExtendablePromise = require('./dist/index.cjs');
 
-describe(`ExtendablePromise`, () => {
+describe('ExtendablePromise', () => {
   let executorFunc;
   let promise;
   beforeEach(() => {
     executorFunc = jest.fn();
     promise = new ExtendablePromise(executorFunc);
+    jest.resetAllMocks();
   });
 
   describe('#constructor', () => {
@@ -28,10 +29,31 @@ describe(`ExtendablePromise`, () => {
       expect(String(promise)).toEqual('[object ExtendablePromise]');
     });
     describe('when an invalid executor is passed', () => {
-      test('should throw an error', () => {
-        expect(() => {
-          promise = new ExtendablePromise();
-        }).toThrow('Invalid executor type');
+      describe('when null is passed', () => {
+        test('should throw a sync error', () => {
+          expect.assertions(3);
+          promise = undefined;
+          try {
+            promise = new ExtendablePromise(null);
+          } catch (error) {
+            expect(error.name).toEqual('ExtendablePromise|InstantiationError');
+            expect(error.message).toEqual('Invalid executor type: null');
+          }
+          expect(promise).toBeUndefined();
+        });
+      });
+      describe('when invalid type is passed', () => {
+        test('should throw a sync error', () => {
+          expect.assertions(3);
+          promise = undefined;
+          try {
+            promise = new ExtendablePromise(123);
+          } catch (error) {
+            expect(error.name).toEqual('ExtendablePromise|InstantiationError');
+            expect(error.message).toEqual('Invalid executor type: number');
+          }
+          expect(promise).toBeUndefined();
+        });
       });
     });
   });

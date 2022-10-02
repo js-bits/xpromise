@@ -1,11 +1,18 @@
 import enumerate from '@js-bits/enumerate';
 
+const { Prefix } = enumerate;
+
 // pseudo-private properties emulation in order to avoid source code transpiling
 // TODO: replace with #privateField syntax when it gains wide support
 const ø = enumerate`
   executor
   resolve
   reject
+`;
+
+const ERRORS = enumerate(Prefix('ExtendablePromise|'))`
+  InstantiationError
+  ExecutionError
 `;
 
 /**
@@ -19,8 +26,8 @@ class ExtendablePromise extends Promise {
   constructor(executor) {
     let resolve;
     let reject;
-    super((...funcs) => {
-      [resolve, reject] = funcs;
+    super((...args) => {
+      [resolve, reject] = args;
     });
     this[ø.resolve] = resolve;
     this[ø.reject] = reject;
@@ -28,7 +35,9 @@ class ExtendablePromise extends Promise {
     if (typeof executor === 'function') {
       this[ø.executor] = executor;
     } else {
-      throw new Error('Invalid executor type');
+      const error = new Error(`Invalid executor type: ${executor === null ? 'null' : typeof executor}`);
+      error.name = ERRORS.InstantiationError;
+      throw error;
     }
   }
 
@@ -69,6 +78,8 @@ class ExtendablePromise extends Promise {
     // return this; // don't do this
   }
 }
+
+Object.assign(ExtendablePromise, ERRORS);
 
 // https://stackoverflow.com/a/60328122
 Object.defineProperty(ExtendablePromise, Symbol.species, { get: () => Promise });
