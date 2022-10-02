@@ -316,3 +316,56 @@ describe('ExtendablePromise', () => {
     });
   });
 });
+
+describe('Promise', () => {
+  describe('immediately resoled', () => {
+    test('should return async value', async () => {
+      expect.assertions(1);
+      const promise = new Promise(resolve => {
+        resolve(12345);
+      });
+      const result = await promise;
+      expect(result).toEqual(12345);
+    });
+  });
+  describe('immediately rejected', () => {
+    test('should throw an error', async () => {
+      expect.assertions(3);
+      const promise = new Promise((resolve, reject) => {
+        // eslint-disable-next-line prefer-promise-reject-errors
+        reject('async error');
+      });
+      let result = 'unchanged';
+      try {
+        result = await promise;
+      } catch (error) {
+        expect(error).toEqual('async error');
+      }
+      expect(promise).toBeInstanceOf(Promise);
+      expect(result).toEqual('unchanged');
+    });
+  });
+  describe('Promise.resolve', () => {
+    test('should return async value', async () => {
+      expect.assertions(1);
+      const promise = Promise.resolve(9876);
+      const result = await promise;
+      expect(result).toEqual(9876);
+    });
+  });
+  describe('Promise.reject', () => {
+    test('should throw an error', async () => {
+      expect.assertions(3);
+      // eslint-disable-next-line prefer-promise-reject-errors
+      const promise = Promise.reject('async error');
+      let result = 'unchanged';
+      try {
+        result = await promise;
+      } catch (error) {
+        expect(error).toEqual('async error');
+      }
+      expect(promise).toBeInstanceOf(Promise);
+      expect(result).toEqual('unchanged');
+    });
+  });
+});
