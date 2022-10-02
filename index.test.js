@@ -182,6 +182,12 @@ describe('ExtendablePromise', () => {
     test('should return promise instance', () => {
       expect(promise.resolve(123)).toBe(promise);
     });
+    test('should return only first argument', () => {
+      expect.assertions(1);
+      return promise.resolve(11, 22, 33).then((...args) => {
+        expect(args).toEqual([11]);
+      });
+    });
     describe('when bound to another promise', () => {
       test('should return resolved promise', async () => {
         expect.assertions(3);
@@ -351,6 +357,13 @@ describe('Promise', () => {
       const promise = Promise.resolve(9876);
       const result = await promise;
       expect(result).toEqual(9876);
+    });
+    test('should return only first argument', () => {
+      expect.assertions(1);
+      const promise = Promise.resolve(1, 2, 3);
+      return promise.then((...args) => {
+        expect(args).toEqual([1]);
+      });
     });
   });
   describe('Promise.reject', () => {
