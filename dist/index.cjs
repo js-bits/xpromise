@@ -6,12 +6,19 @@ function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'defau
 
 var enumerate__default = /*#__PURE__*/_interopDefaultLegacy(enumerate);
 
+const { Prefix } = enumerate__default["default"];
+
 // pseudo-private properties emulation in order to avoid source code transpiling
 // TODO: replace with #privateField syntax when it gains wide support
-const ø = enumerate__default['default']`
+const ø = enumerate__default["default"]`
   executor
   resolve
   reject
+`;
+
+const ERRORS = enumerate__default["default"](Prefix('ExtendablePromise|'))`
+  InstantiationError
+  ExecutionError
 `;
 
 /**
@@ -25,8 +32,8 @@ class ExtendablePromise extends Promise {
   constructor(executor) {
     let resolve;
     let reject;
-    super((...funcs) => {
-      [resolve, reject] = funcs;
+    super((...args) => {
+      [resolve, reject] = args;
     });
     this[ø.resolve] = resolve;
     this[ø.reject] = reject;
@@ -34,7 +41,9 @@ class ExtendablePromise extends Promise {
     if (typeof executor === 'function') {
       this[ø.executor] = executor;
     } else {
-      throw new Error('Invalid executor type');
+      const error = new Error(`Invalid executor type: ${executor === null ? 'null' : typeof executor}`);
+      error.name = ERRORS.InstantiationError;
+      throw error;
     }
   }
 
@@ -49,7 +58,14 @@ class ExtendablePromise extends Promise {
    */
   execute(...args) {
     if (this[ø.executor]) {
-      this[ø.executor](this.resolve.bind(this), this.reject.bind(this), ...args);
+      try {
+        this[ø.executor](this.resolve.bind(this), this.reject.bind(this), ...args);
+      } catch (cause) {
+        const error = new Error('Promise execution failed. See "cause" property for details');
+        error.cause = cause;
+        error.name = ERRORS.ExecutionError;
+        this.reject(error);
+      }
       this[ø.executor] = undefined;
     }
     return this;
@@ -75,6 +91,8 @@ class ExtendablePromise extends Promise {
     // return this; // don't do this
   }
 }
+
+Object.assign(ExtendablePromise, ERRORS);
 
 // https://stackoverflow.com/a/60328122
 Object.defineProperty(ExtendablePromise, Symbol.species, { get: () => Promise });
