@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import ExtendablePromise from '../index.js';
 // const ExtendablePromise = require('../dist/index.cjs');
 

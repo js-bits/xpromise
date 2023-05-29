@@ -1,9 +1,9 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
+/* eslint-disable import/no-extraneous-dependencies, no-console */
 import { jest } from '@jest/globals';
 
 describe('Examples', () => {
   beforeEach(() => {
-    console = { log: jest.fn() };
+    jest.spyOn(console, 'log');
   });
   afterEach(() => {
     jest.resetModules();

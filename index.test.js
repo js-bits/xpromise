@@ -1,5 +1,4 @@
-/* eslint-disable max-classes-per-file */
-// eslint-disable-next-line import/no-extraneous-dependencies
+/* eslint-disable max-classes-per-file, import/no-extraneous-dependencies, no-unused-vars */
 import { jest } from '@jest/globals';
 import ExtendablePromise from './index.js';
 // import ExtendablePromise from './dist/index.cjs';
