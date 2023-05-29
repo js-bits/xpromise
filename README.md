@@ -48,5 +48,4 @@ myPromise.resolve(123);
 
 ## Notes
 
-- Does not include any polyfills, which means that Internet Explorer is not supported.
 - [Alternative solution](https://stackoverflow.com/questions/48158730/extend-javascript-promise-and-resolve-or-reject-it-inside-constructor)
