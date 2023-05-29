@@ -1,4 +1,5 @@
 import ExtendablePromise from '../index.js';
+// const ExtendablePromise = require('../dist/index.cjs');
 
 class MyPromise extends ExtendablePromise {
   // do whatever you need

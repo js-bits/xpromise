@@ -2,21 +2,17 @@
 
 var enumerate = require('@js-bits/enumerate');
 
-function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
-
-var enumerate__default = /*#__PURE__*/_interopDefaultLegacy(enumerate);
-
-const { Prefix } = enumerate__default["default"];
+const { Prefix } = enumerate;
 
 // pseudo-private properties emulation in order to avoid source code transpiling
 // TODO: replace with #privateField syntax when it gains wide support
-const ø = enumerate__default["default"]`
+const ø = enumerate`
   executor
   resolve
   reject
 `;
 
-const ERRORS = enumerate__default["default"](Prefix('ExtendablePromise|'))`
+const ERRORS = enumerate(Prefix('ExtendablePromise|'))`
   InstantiationError
   ExecutionError
 `;
