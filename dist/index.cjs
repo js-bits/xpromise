@@ -6,26 +6,33 @@ const { Prefix } = enumerate;
 
 // pseudo-private properties emulation in order to avoid source code transpiling
 // TODO: replace with #privateField syntax when it gains wide support
-const ø = enumerate`
+const ø = enumerate.ts(`
   executor
   resolve
   reject
-`;
-
-const ERRORS = enumerate(Prefix('ExtendablePromise|'))`
-  InstantiationError
-  ExecutionError
-`;
+`);
 
 /**
- * @class
- * @extends {Promise}
+ * @typedef {{
+ *   InstantiationError: 'ExtendablePromise|InstantiationError',
+ *   ExecutionError: 'ExtendablePromise|ExecutionError'
+ * }} ErrorsEnum
  */
+
+/** @type {ErrorsEnum} */
+const ERRORS = enumerate.ts(
+  `
+  InstantiationError
+  ExecutionError
+`,
+  Prefix('ExtendablePromise|')
+);
+
 class ExtendablePromise extends Promise {
   /**
    * @param {Function} executor
    */
-  constructor(executor) {
+  constructor(executor, /** @type {unknown[]} */ ...rest) {
     let resolve;
     let reject;
     super((...args) => {
@@ -50,7 +57,7 @@ class ExtendablePromise extends Promise {
 
   /**
    * @param {...any} args
-   * @returns {Promise}
+   * @returns {ExtendablePromise}
    */
   execute(...args) {
     if (this[ø.executor]) {
@@ -68,27 +75,27 @@ class ExtendablePromise extends Promise {
   }
 
   /**
-   * @param {any} result
-   * @returns {Promise}
+   * @param {unknown} result
+   * @returns {ExtendablePromise}
    */
-  resolve(...args) {
-    this[ø.resolve](...args);
+  resolve(result, /** @type {unknown[]} */ ...rest) {
+    this[ø.resolve](result, ...rest);
     return this;
   }
 
   /**
    * @param {Error} reason
-   * @returns {Promise}
+   * @returns {ExtendablePromise}
    */
-  reject(...args) {
-    this[ø.reject](...args);
+  reject(reason, /** @type {unknown[]} */ ...args) {
+    this[ø.reject](reason, ...args);
     return this;
   }
 }
 
-Object.assign(ExtendablePromise, ERRORS);
-
 // https://stackoverflow.com/a/60328122
 Object.defineProperty(ExtendablePromise, Symbol.species, { get: () => Promise });
 
-module.exports = ExtendablePromise;
+var index = Object.assign(ExtendablePromise, ERRORS);
+
+module.exports = index;

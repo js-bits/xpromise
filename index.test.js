@@ -46,6 +46,7 @@ describe('ExtendablePromise', () => {
           expect.assertions(3);
           promise = undefined;
           try {
+            // @ts-expect-error Argument of type 'number' is not assignable to parameter of type 'Function'.
             promise = new ExtendablePromise(123);
           } catch (error) {
             expect(error.name).toEqual('ExtendablePromise|InstantiationError');
@@ -234,9 +235,9 @@ describe('ExtendablePromise', () => {
     describe('when bound to another promise', () => {
       test('should return rejected promise', async () => {
         expect.assertions(4);
-        let reject;
-        const anotherPromise = new Promise((...args) => {
-          [, reject] = args;
+        let /** @type {{(reason?: any): void}} */ reject;
+        const anotherPromise = new Promise((res, rej) => {
+          reject = rej;
         });
         reject('error');
         let result;
@@ -284,9 +285,9 @@ describe('ExtendablePromise', () => {
           this.execute();
         }
 
-        resolve(...args) {
-          resolveFunc(...args);
-          super.resolve(...args);
+        resolve(result, ...args) {
+          resolveFunc(result, ...args);
+          return super.resolve(result, ...args);
         }
       }
       const resolvedPromise = new ResolvedPromise();
@@ -298,7 +299,7 @@ describe('ExtendablePromise', () => {
     });
 
     test('reject', async () => {
-      expect.assertions(2);
+      expect.assertions(3);
       const rejectFunc = jest.fn();
       class RejectedPromise extends ExtendablePromise {
         constructor(...args) {
@@ -308,14 +309,15 @@ describe('ExtendablePromise', () => {
           this.execute();
         }
 
-        reject(...args) {
-          rejectFunc(...args);
-          super.reject(...args);
+        reject(reason, ...args) {
+          rejectFunc(reason, ...args);
+          return super.reject(reason, ...args);
         }
       }
       const rejectedPromise = new RejectedPromise();
       return rejectedPromise.catch(reason => {
         expect(reason.message).toEqual('Rejected Promise');
+        expect(rejectFunc).toHaveBeenCalledWith(expect.any(Error));
         expect(rejectFunc).toHaveBeenCalledTimes(1);
       });
     });
@@ -359,6 +361,7 @@ describe('Promise', () => {
     });
     test('should return only first argument', () => {
       expect.assertions(1);
+      // @ts-expect-error Expected 0-1 arguments, but got 3.
       const promise = Promise.resolve(1, 2, 3);
       return promise.then((...args) => {
         expect(args).toEqual([1]);
