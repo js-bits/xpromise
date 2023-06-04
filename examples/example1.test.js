@@ -2,6 +2,7 @@
 import { jest } from '@jest/globals';
 
 describe('Examples', () => {
+  /** @type {any} */
   let consoleLog;
   beforeEach(() => {
     consoleLog = jest.spyOn(console, 'log');

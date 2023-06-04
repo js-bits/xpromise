@@ -5,7 +5,9 @@ import ExtendablePromise from './index.js';
 // const ExtendablePromise = require('./dist/index.cjs');
 
 describe('ExtendablePromise', () => {
+  /** @type {jest.Mock<() => void>} */
   let executorFunc;
+  /** @type {ExtendablePromise<string | number>}  */
   let promise;
   beforeEach(() => {
     executorFunc = jest.fn();
@@ -60,10 +62,11 @@ describe('ExtendablePromise', () => {
         describe('when rejected in a constructor', () => {
           test('should throw an async error', async () => {
             expect.assertions(3);
+            /** @extends {ExtendablePromise<string>}  */
             class MyPromise extends ExtendablePromise {
               constructor() {
                 super((resolve, reject) => {
-                  reject('async error');
+                  reject(new Error('async error'));
                 });
                 this.execute();
               }
@@ -72,9 +75,9 @@ describe('ExtendablePromise', () => {
             let result = 'unchanged';
             try {
               promise = new MyPromise();
-              result = await promise;
+              result = /** @type {string} */ (await promise);
             } catch (error) {
-              expect(error).toEqual('async error');
+              expect(error.message).toEqual('async error');
             }
             expect(promise).toEqual(expect.any(ExtendablePromise));
             expect(result).toEqual('unchanged');
@@ -83,6 +86,7 @@ describe('ExtendablePromise', () => {
         describe('when resolved in a constructor', () => {
           test('should return resolved value', async () => {
             expect.assertions(2);
+            /** @extends {ExtendablePromise<string>}  */
             class MyPromise extends ExtendablePromise {
               constructor() {
                 super(resolve => {
@@ -134,7 +138,7 @@ describe('ExtendablePromise', () => {
 
       describe('try/catch', () => {
         test('should reject the promise', async () => {
-          expect.assertions(7);
+          expect.assertions(8);
           expect(executorFunc).not.toHaveBeenCalled();
           executorFunc.mockImplementation(() => {
             throw new Error('Executor error');
@@ -144,6 +148,7 @@ describe('ExtendablePromise', () => {
             result = await promise.execute();
           } catch (error) {
             expect(error.name).toEqual('ExtendablePromise|ExecutionError');
+            expect(error.name).toEqual(ExtendablePromise.ExecutionError);
             expect(error.message).toEqual('Promise execution failed. See "cause" property for details');
             expect(error.cause).toEqual(expect.any(Error));
             expect(error.cause.message).toEqual('Executor error');
@@ -166,7 +171,7 @@ describe('ExtendablePromise', () => {
           .then(result => {
             expect(result).toEqual(123);
           })
-          .finally(result => {
+          .finally((/** @type {unknown} */ result) => {
             expect(result).toBeUndefined();
           });
       });
@@ -184,6 +189,7 @@ describe('ExtendablePromise', () => {
     });
     test('should return only first argument', () => {
       expect.assertions(1);
+      // @ts-expect-error Expected 1 arguments, but got 3.
       return promise.resolve(11, 22, 33).then((...args) => {
         expect(args).toEqual([11]);
       });
@@ -225,11 +231,11 @@ describe('ExtendablePromise', () => {
     });
     test('should return promise instance', async () => {
       expect.assertions(2);
-      expect(promise.reject('async error')).toBe(promise);
+      expect(promise.reject(new Error('async error'))).toBe(promise);
       try {
         await promise;
       } catch (error) {
-        expect(error).toEqual('async error');
+        expect(error.message).toEqual('async error');
       }
     });
     describe('when bound to another promise', () => {
@@ -277,17 +283,18 @@ describe('ExtendablePromise', () => {
     test('resolve', async () => {
       expect.assertions(3);
       const resolveFunc = jest.fn();
+      /** @extends {ExtendablePromise<boolean>}  */
       class ResolvedPromise extends ExtendablePromise {
-        constructor(...args) {
+        constructor() {
           super((resolve, reject) => {
             resolve(true);
-          }, ...args);
+          });
           this.execute();
         }
 
-        resolve(result, ...args) {
-          resolveFunc(result, ...args);
-          return super.resolve(result, ...args);
+        resolve(/** @type {boolean} */ result) {
+          resolveFunc(result);
+          return super.resolve(result);
         }
       }
       const resolvedPromise = new ResolvedPromise();
@@ -301,17 +308,18 @@ describe('ExtendablePromise', () => {
     test('reject', async () => {
       expect.assertions(3);
       const rejectFunc = jest.fn();
+      /** @extends {ExtendablePromise<boolean>}  */
       class RejectedPromise extends ExtendablePromise {
-        constructor(...args) {
+        constructor() {
           super((resolve, reject) => {
             reject(new Error('Rejected Promise'));
-          }, ...args);
+          });
           this.execute();
         }
 
-        reject(reason, ...args) {
-          rejectFunc(reason, ...args);
-          return super.reject(reason, ...args);
+        reject(/** @type {Error} */ reason) {
+          rejectFunc(reason);
+          return super.reject(reason);
         }
       }
       const rejectedPromise = new RejectedPromise();

@@ -1,27 +1,41 @@
-declare const _default: typeof ExtendablePromise & ErrorsEnum;
-export default _default;
+export default ExtendablePromise;
 export type ErrorsEnum = {
     InstantiationError: 'ExtendablePromise|InstantiationError';
     ExecutionError: 'ExtendablePromise|ExecutionError';
 };
-declare class ExtendablePromise extends Promise<any> {
+export type Resolve<T> = (value: T | PromiseLike<T>, ...rest: unknown[]) => void;
+export type Reject = (reason?: Error) => void;
+/**
+ * @template T
+ * @typedef {(value: T | PromiseLike<T>, ...rest:unknown[]) => void} Resolve
+ */
+/**
+ * @typedef {(reason?: Error) => void} Reject
+ */
+/**
+ * @template T
+ * @extends {Promise<T>}
+ */
+declare class ExtendablePromise<T> extends Promise<T> {
+    static InstantiationError: "ExtendablePromise|InstantiationError";
+    static ExecutionError: "ExtendablePromise|ExecutionError";
     /**
-     * @param {Function} executor
+     * @param {(resolve:Resolve<T>, reject:Reject, ...rest:unknown[]) => void} executor
      */
-    constructor(executor: Function, ...rest: unknown[]);
+    constructor(executor: (resolve: Resolve<T>, reject: Reject, ...rest: unknown[]) => void);
     /**
-     * @param {...any} args
-     * @returns {ExtendablePromise}
+     * @param {...unknown} args
+     * @returns {ExtendablePromise<T>}
      */
-    execute(...args: any[]): ExtendablePromise;
+    execute(...args: unknown[]): ExtendablePromise<T>;
     /**
-     * @param {unknown} result
-     * @returns {ExtendablePromise}
+     * @param {T} result
+     * @returns {ExtendablePromise<T>}
      */
-    resolve(result: unknown, ...rest: unknown[]): ExtendablePromise;
+    resolve(result: T): ExtendablePromise<T>;
     /**
      * @param {Error} reason
-     * @returns {ExtendablePromise}
+     * @returns {ExtendablePromise<T>}
      */
-    reject(reason: Error, ...args: unknown[]): ExtendablePromise;
+    reject(reason: Error): ExtendablePromise<T>;
 }

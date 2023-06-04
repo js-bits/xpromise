@@ -675,12 +675,12 @@
     "@jridgewell/resolve-uri" "3.1.0"
     "@jridgewell/sourcemap-codec" "1.4.14"
 
-"@js-bits/enumerate@^1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@js-bits/enumerate/-/enumerate-1.0.3.tgz#0de131b454fc8f7f4c3807a0a1b68058c0832730"
-  integrity sha512-d155u6RneDZkSgsyqp+TtL6bvBjIwbMNxvr5cacuHTpY/iT71j4JdO3b/D/Yium7cDK596ko+FO3zdx4zw6e7A==
+"@js-bits/enumerate@^1.0.9":
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/@js-bits/enumerate/-/enumerate-1.0.9.tgz#8ca5d5838fc6765f482a85d33d204f22a62bcd0d"
+  integrity sha512-33BFe/Ewub89mihjLNGW1fU/JbBFdEa1cnW18D4jG+9PEbYk5HhWlse2USRJ1sNar3YXDkaVlEvGFygTxpRVbQ==
   dependencies:
-    "@js-bits/typedef-utils" "^1.0.0"
+    "@js-bits/typedef-utils" "^1.0.3"
 
 "@js-bits/eslint-config@^1.0.3":
   version "1.0.3"
@@ -715,10 +715,10 @@
   resolved "https://registry.yarnpkg.com/@js-bits/log-in-color/-/log-in-color-0.3.1.tgz#cd869d92f683a82ef5b1aefc46c8a784851c217b"
   integrity sha512-4jGYfHvP5lMg9UHt2Sxt+1BvNaDu9gmBlLx6dS+kmWtBl6fuLdbuO2BPl1iXMYTbPdrnWSTVTCMyR/1M0tD79Q==
 
-"@js-bits/typedef-utils@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@js-bits/typedef-utils/-/typedef-utils-1.0.0.tgz#2c8912aba7a90f530eca9b4c254575f4c3db0969"
-  integrity sha512-PWysynnMCaOWMNVvagM8AwkHZHIr//Y75piICVq6M/nabfyf34H5BPmYHuirNLfyKR5NqcjlJNJQO2+I7aMrng==
+"@js-bits/typedef-utils@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@js-bits/typedef-utils/-/typedef-utils-1.0.3.tgz#231b0d419d3f2fefe371282bd4848bccbd04af6c"
+  integrity sha512-sI3utc78seBpDvl/Z3mjE+7yeCfyRuCcw/QOdytbwCtLw1IGhKRt11HIOC40VYjbGTdZPmZTjxhCqIs932ZHUg==
 
 "@nicolo-ribaudo/eslint-scope-5-internals@5.1.1-v1":
   version "5.1.1-v1"

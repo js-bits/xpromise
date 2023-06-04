@@ -28,15 +28,35 @@ const ERRORS = enumerate.ts(
   Prefix('ExtendablePromise|')
 );
 
+/**
+ * @template T
+ * @typedef {(value: T | PromiseLike<T>, ...rest:unknown[]) => void} Resolve
+ */
+
+/**
+ * @typedef {(reason?: Error) => void} Reject
+ */
+
+/**
+ * @template T
+ * @extends {Promise<T>}
+ */
 class ExtendablePromise extends Promise {
+  static InstantiationError = ERRORS.InstantiationError;
+
+  static ExecutionError = ERRORS.ExecutionError;
+
   /**
-   * @param {Function} executor
+   * @param {(resolve:Resolve<T>, reject:Reject, ...rest:unknown[]) => void} executor
    */
-  constructor(executor, /** @type {unknown[]} */ ...rest) {
+  constructor(executor) {
+    /** @type {Resolve<T>} */
     let resolve;
+    /** @type {Reject} */
     let reject;
-    super((...args) => {
-      [resolve, reject] = args;
+    super((res, rej) => {
+      resolve = res;
+      reject = rej;
     });
     this[ø.resolve] = resolve;
     this[ø.reject] = reject;
@@ -56,8 +76,8 @@ class ExtendablePromise extends Promise {
   }
 
   /**
-   * @param {...any} args
-   * @returns {ExtendablePromise}
+   * @param {...unknown} args
+   * @returns {ExtendablePromise<T>}
    */
   execute(...args) {
     if (this[ø.executor]) {
@@ -75,20 +95,20 @@ class ExtendablePromise extends Promise {
   }
 
   /**
-   * @param {unknown} result
-   * @returns {ExtendablePromise}
+   * @param {T} result
+   * @returns {ExtendablePromise<T>}
    */
-  resolve(result, /** @type {unknown[]} */ ...rest) {
-    this[ø.resolve](result, ...rest);
+  resolve(result) {
+    this[ø.resolve](result);
     return this;
   }
 
   /**
    * @param {Error} reason
-   * @returns {ExtendablePromise}
+   * @returns {ExtendablePromise<T>}
    */
-  reject(reason, /** @type {unknown[]} */ ...args) {
-    this[ø.reject](reason, ...args);
+  reject(reason) {
+    this[ø.reject](reason);
     return this;
   }
 }
@@ -96,6 +116,4 @@ class ExtendablePromise extends Promise {
 // https://stackoverflow.com/a/60328122
 Object.defineProperty(ExtendablePromise, Symbol.species, { get: () => Promise });
 
-var index = Object.assign(ExtendablePromise, ERRORS);
-
-module.exports = index;
+module.exports = ExtendablePromise;

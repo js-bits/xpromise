@@ -2,6 +2,9 @@
 import ExtendablePromise from '../index.js';
 // const ExtendablePromise = require('../dist/index.cjs');
 
+/**
+ * @extends {ExtendablePromise<number>}
+ */
 class MyPromise extends ExtendablePromise {
   // do whatever you need
 }
