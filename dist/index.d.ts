@@ -25,11 +25,13 @@ declare class ExtendablePromise<T> extends Promise<T> {
     static readonly ExecutionError: 'ExtendablePromise|ExecutionError';
     /**
      * @param {(resolve:Resolve<T>, reject:Reject, ...rest:unknown[]) => void} executor
+     * @throws {typeof ExtendablePromise.InstantiationError}
      */
     constructor(executor: (resolve: Resolve<T>, reject: Reject, ...rest: unknown[]) => void);
     /**
      * @param {...unknown} args
      * @returns {ExtendablePromise<T>}
+     * @throws {typeof ExtendablePromise.ExecutionError}
      */
     execute(...args: unknown[]): ExtendablePromise<T>;
     /**

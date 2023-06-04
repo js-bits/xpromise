@@ -46,6 +46,7 @@ class ExtendablePromise extends Promise {
 
   /**
    * @param {(resolve:Resolve<T>, reject:Reject, ...rest:unknown[]) => void} executor
+   * @throws {typeof ExtendablePromise.InstantiationError}
    */
   constructor(executor) {
     /** @type {Resolve<T>} */
@@ -76,6 +77,7 @@ class ExtendablePromise extends Promise {
   /**
    * @param {...unknown} args
    * @returns {ExtendablePromise<T>}
+   * @throws {typeof ExtendablePromise.ExecutionError}
    */
   execute(...args) {
     if (this[ø.executor]) {
