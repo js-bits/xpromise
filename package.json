@@ -4,6 +4,7 @@
   "description": "Extendable Promise",
   "keywords": [
     "javascript",
+    "typescript",
     "extend",
     "extendable",
     "pattern",
