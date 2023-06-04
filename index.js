@@ -28,6 +28,8 @@ const ERRORS = enumerate.ts(
  */
 
 /**
+ * Allows extension of JavaScript's standard, built-in `Promise` class.
+ * Decouples an asynchronous operation that ties an outcome to a promise from the constructor.
  * @template T
  * @extends {Promise<T>}
  */
@@ -45,7 +47,8 @@ class ExtendablePromise extends Promise {
   static ExecutionError = ERRORS.ExecutionError;
 
   /**
-   * @param {(resolve:Resolve<T>, reject:Reject, ...rest:unknown[]) => void} executor
+   * Creates new `ExtendablePromise` instance.
+   * @param {(resolve:Resolve<T>, reject:Reject, ...rest:unknown[]) => void} executor - A function to be executed by the `.execute()` method
    * @throws {typeof ExtendablePromise.InstantiationError}
    */
   constructor(executor) {
@@ -75,11 +78,12 @@ class ExtendablePromise extends Promise {
   }
 
   /**
-   * @param {...unknown} args
+   * Executes `executor` function provided to `ExtendablePromise` constructor.
+   * All arguments will be passed through to `executor` function.
    * @returns {ExtendablePromise<T>}
    * @throws {typeof ExtendablePromise.ExecutionError}
    */
-  execute(...args) {
+  execute(/** @type {...unknown[]} */ ...args) {
     if (this[ø.executor]) {
       try {
         this[ø.executor](this.resolve.bind(this), this.reject.bind(this), ...args);
@@ -95,19 +99,21 @@ class ExtendablePromise extends Promise {
   }
 
   /**
-   * @param {T} result
+   * Resolves `ExtendablePromise`
+   * @param result
    * @returns {ExtendablePromise<T>}
    */
-  resolve(result) {
+  resolve(/** @type {T} */ result) {
     this[ø.resolve](result);
     return this;
   }
 
   /**
-   * @param {Error} reason
+   * Rejects `ExtendablePromise`
+   * @param reason
    * @returns {ExtendablePromise<T>}
    */
-  reject(reason) {
+  reject(/** @type {Error} */ reason) {
     this[ø.reject](reason);
     return this;
   }

@@ -9,6 +9,8 @@ export type Reject = (reason?: Error) => void;
  * @typedef {(reason?: Error) => void} Reject
  */
 /**
+ * Allows extension of JavaScript's standard, built-in `Promise` class.
+ * Decouples an asynchronous operation that ties an outcome to a promise from the constructor.
  * @template T
  * @extends {Promise<T>}
  */
@@ -24,23 +26,27 @@ declare class ExtendablePromise<T> extends Promise<T> {
      */
     static readonly ExecutionError: 'ExtendablePromise|ExecutionError';
     /**
-     * @param {(resolve:Resolve<T>, reject:Reject, ...rest:unknown[]) => void} executor
+     * Creates new `ExtendablePromise` instance.
+     * @param {(resolve:Resolve<T>, reject:Reject, ...rest:unknown[]) => void} executor - A function to be executed by the `.execute()` method
      * @throws {typeof ExtendablePromise.InstantiationError}
      */
     constructor(executor: (resolve: Resolve<T>, reject: Reject, ...rest: unknown[]) => void);
     /**
-     * @param {...unknown} args
+     * Executes `executor` function provided to `ExtendablePromise` constructor.
+     * All arguments will be passed through to `executor` function.
      * @returns {ExtendablePromise<T>}
      * @throws {typeof ExtendablePromise.ExecutionError}
      */
-    execute(...args: unknown[]): ExtendablePromise<T>;
+    execute(...args: unknown[][]): ExtendablePromise<T>;
     /**
-     * @param {T} result
+     * Resolves `ExtendablePromise`
+     * @param result
      * @returns {ExtendablePromise<T>}
      */
     resolve(result: T): ExtendablePromise<T>;
     /**
-     * @param {Error} reason
+     * Rejects `ExtendablePromise`
+     * @param reason
      * @returns {ExtendablePromise<T>}
      */
     reject(reason: Error): ExtendablePromise<T>;
