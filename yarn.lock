@@ -675,12 +675,12 @@
     "@jridgewell/resolve-uri" "3.1.0"
     "@jridgewell/sourcemap-codec" "1.4.14"
 
-"@js-bits/enumerate@^1.0.9":
-  version "1.0.9"
-  resolved "https://registry.yarnpkg.com/@js-bits/enumerate/-/enumerate-1.0.9.tgz#8ca5d5838fc6765f482a85d33d204f22a62bcd0d"
-  integrity sha512-33BFe/Ewub89mihjLNGW1fU/JbBFdEa1cnW18D4jG+9PEbYk5HhWlse2USRJ1sNar3YXDkaVlEvGFygTxpRVbQ==
+"@js-bits/enumerate@^1.0.10":
+  version "1.0.10"
+  resolved "https://registry.yarnpkg.com/@js-bits/enumerate/-/enumerate-1.0.10.tgz#1db629f074f0c14127f713885e748908226b6747"
+  integrity sha512-fGfR4UDM5jQpcDPkP6DzdR0reAWOpdrrUENCk9M/U6iq2FcOZZWwhyoItvCzt5xL0Rgj5vKRUjDWVdrf162qgg==
   dependencies:
-    "@js-bits/typedef-utils" "^1.0.3"
+    "@js-bits/typedef-utils" "^1.0.4"
 
 "@js-bits/eslint-config@^1.0.3":
   version "1.0.3"
@@ -710,15 +710,15 @@
     prettier "^2.8.8"
     typescript "^4.8.4"
 
-"@js-bits/log-in-color@^0.3.1":
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/@js-bits/log-in-color/-/log-in-color-0.3.1.tgz#cd869d92f683a82ef5b1aefc46c8a784851c217b"
-  integrity sha512-4jGYfHvP5lMg9UHt2Sxt+1BvNaDu9gmBlLx6dS+kmWtBl6fuLdbuO2BPl1iXMYTbPdrnWSTVTCMyR/1M0tD79Q==
+"@js-bits/log-in-color@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@js-bits/log-in-color/-/log-in-color-1.0.1.tgz#b3e19e4b401f881e1b448b1aa15fffce5cffc0e8"
+  integrity sha512-sHYPPn9F5/hlMz/rTX/J2pOketrwSbXfmo6c2WjcXRwr5juNOoFt9XbwM+WOtgQ/3OzJXOCatn96ZvvgMH3pWg==
 
-"@js-bits/typedef-utils@^1.0.3":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@js-bits/typedef-utils/-/typedef-utils-1.0.3.tgz#231b0d419d3f2fefe371282bd4848bccbd04af6c"
-  integrity sha512-sI3utc78seBpDvl/Z3mjE+7yeCfyRuCcw/QOdytbwCtLw1IGhKRt11HIOC40VYjbGTdZPmZTjxhCqIs932ZHUg==
+"@js-bits/typedef-utils@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@js-bits/typedef-utils/-/typedef-utils-1.0.4.tgz#8505fb70f07982abdfcc7bf5acae2ea8fe131a59"
+  integrity sha512-/2KaKjrtBNM9Q3iHYG3+8FjgG9VETvnqs4IRNlG4XPWur/G9C4A4CvtCJxiIQcbXaMc9dniCrbh3bM3XUntM/A==
 
 "@nicolo-ribaudo/eslint-scope-5-internals@5.1.1-v1":
   version "5.1.1-v1"
