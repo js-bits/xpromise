@@ -12,14 +12,6 @@ const ø = enumerate.ts(`
   reject
 `);
 
-/**
- * @typedef {{
- *   InstantiationError: 'ExtendablePromise|InstantiationError',
- *   ExecutionError: 'ExtendablePromise|ExecutionError'
- * }} ErrorsEnum
- */
-
-/** @type {ErrorsEnum} */
 const ERRORS = enumerate.ts(
   `
   InstantiationError
@@ -42,8 +34,10 @@ const ERRORS = enumerate.ts(
  * @extends {Promise<T>}
  */
 class ExtendablePromise extends Promise {
+  /** @type {'ExtendablePromise|InstantiationError'} */
   static InstantiationError = ERRORS.InstantiationError;
 
+  /** @type {'ExtendablePromise|ExecutionError'} */
   static ExecutionError = ERRORS.ExecutionError;
 
   /**

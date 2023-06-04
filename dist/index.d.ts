@@ -1,8 +1,4 @@
 export default ExtendablePromise;
-export type ErrorsEnum = {
-    InstantiationError: 'ExtendablePromise|InstantiationError';
-    ExecutionError: 'ExtendablePromise|ExecutionError';
-};
 export type Resolve<T> = (value: T | PromiseLike<T>, ...rest: unknown[]) => void;
 export type Reject = (reason?: Error) => void;
 /**
@@ -17,8 +13,10 @@ export type Reject = (reason?: Error) => void;
  * @extends {Promise<T>}
  */
 declare class ExtendablePromise<T> extends Promise<T> {
-    static InstantiationError: "ExtendablePromise|InstantiationError";
-    static ExecutionError: "ExtendablePromise|ExecutionError";
+    /** @type {'ExtendablePromise|InstantiationError'} */
+    static InstantiationError: 'ExtendablePromise|InstantiationError';
+    /** @type {'ExtendablePromise|ExecutionError'} */
+    static ExecutionError: 'ExtendablePromise|ExecutionError';
     /**
      * @param {(resolve:Resolve<T>, reject:Reject, ...rest:unknown[]) => void} executor
      */
