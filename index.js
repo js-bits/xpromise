@@ -32,10 +32,16 @@ const ERRORS = enumerate.ts(
  * @extends {Promise<T>}
  */
 class ExtendablePromise extends Promise {
-  /** @type {'ExtendablePromise|InstantiationError'} */
+  /**
+   * @type {'ExtendablePromise|InstantiationError'}
+   * @readonly
+   */
   static InstantiationError = ERRORS.InstantiationError;
 
-  /** @type {'ExtendablePromise|ExecutionError'} */
+  /**
+   * @type {'ExtendablePromise|ExecutionError'}
+   * @readonly
+   */
   static ExecutionError = ERRORS.ExecutionError;
 
   /**

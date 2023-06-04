@@ -13,10 +13,16 @@ export type Reject = (reason?: Error) => void;
  * @extends {Promise<T>}
  */
 declare class ExtendablePromise<T> extends Promise<T> {
-    /** @type {'ExtendablePromise|InstantiationError'} */
-    static InstantiationError: 'ExtendablePromise|InstantiationError';
-    /** @type {'ExtendablePromise|ExecutionError'} */
-    static ExecutionError: 'ExtendablePromise|ExecutionError';
+    /**
+     * @type {'ExtendablePromise|InstantiationError'}
+     * @readonly
+     */
+    static readonly InstantiationError: 'ExtendablePromise|InstantiationError';
+    /**
+     * @type {'ExtendablePromise|ExecutionError'}
+     * @readonly
+     */
+    static readonly ExecutionError: 'ExtendablePromise|ExecutionError';
     /**
      * @param {(resolve:Resolve<T>, reject:Reject, ...rest:unknown[]) => void} executor
      */
