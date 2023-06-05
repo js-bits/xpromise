@@ -83,7 +83,7 @@ class ExtendablePromise extends Promise {
    * @returns {this}
    * @throws {typeof ExtendablePromise.ExecutionError}
    */
-  execute(/** @type {...unknown[]} */ ...args) {
+  execute(/** @type {unknown[]} */ ...args) {
     if (this[ø.executor]) {
       try {
         this[ø.executor](this.resolve.bind(this), this.reject.bind(this), ...args);

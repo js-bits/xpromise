@@ -37,7 +37,7 @@ declare class ExtendablePromise<T> extends Promise<T> {
      * @returns {this}
      * @throws {typeof ExtendablePromise.ExecutionError}
      */
-    execute(...args: unknown[][]): this;
+    execute(...args: unknown[]): this;
     /**
      * Resolves `ExtendablePromise`
      * @param result
