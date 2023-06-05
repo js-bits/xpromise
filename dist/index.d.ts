@@ -34,20 +34,20 @@ declare class ExtendablePromise<T> extends Promise<T> {
     /**
      * Executes `executor` function provided to `ExtendablePromise` constructor.
      * All arguments will be passed through to `executor` function.
-     * @returns {ExtendablePromise<T>}
+     * @returns {this}
      * @throws {typeof ExtendablePromise.ExecutionError}
      */
-    execute(...args: unknown[][]): ExtendablePromise<T>;
+    execute(...args: unknown[][]): this;
     /**
      * Resolves `ExtendablePromise`
      * @param result
-     * @returns {ExtendablePromise<T>}
+     * @returns {this}
      */
-    resolve(result: T): ExtendablePromise<T>;
+    resolve(result: T): this;
     /**
      * Rejects `ExtendablePromise`
      * @param reason
-     * @returns {ExtendablePromise<T>}
+     * @returns {this}
      */
-    reject(reason: Error): ExtendablePromise<T>;
+    reject(reason: Error): this;
 }

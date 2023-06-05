@@ -82,7 +82,7 @@ class ExtendablePromise extends Promise {
   /**
    * Executes `executor` function provided to `ExtendablePromise` constructor.
    * All arguments will be passed through to `executor` function.
-   * @returns {ExtendablePromise<T>}
+   * @returns {this}
    * @throws {typeof ExtendablePromise.ExecutionError}
    */
   execute(/** @type {...unknown[]} */ ...args) {
@@ -103,7 +103,7 @@ class ExtendablePromise extends Promise {
   /**
    * Resolves `ExtendablePromise`
    * @param result
-   * @returns {ExtendablePromise<T>}
+   * @returns {this}
    */
   resolve(/** @type {T} */ result) {
     this[ø.resolve](result);
@@ -113,7 +113,7 @@ class ExtendablePromise extends Promise {
   /**
    * Rejects `ExtendablePromise`
    * @param reason
-   * @returns {ExtendablePromise<T>}
+   * @returns {this}
    */
   reject(/** @type {Error} */ reason) {
     this[ø.reject](reason);
