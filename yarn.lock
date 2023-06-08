@@ -675,10 +675,10 @@
     "@jridgewell/resolve-uri" "3.1.0"
     "@jridgewell/sourcemap-codec" "1.4.14"
 
-"@js-bits/enumerate@^1.0.10":
-  version "1.0.10"
-  resolved "https://registry.yarnpkg.com/@js-bits/enumerate/-/enumerate-1.0.10.tgz#1db629f074f0c14127f713885e748908226b6747"
-  integrity sha512-fGfR4UDM5jQpcDPkP6DzdR0reAWOpdrrUENCk9M/U6iq2FcOZZWwhyoItvCzt5xL0Rgj5vKRUjDWVdrf162qgg==
+"@js-bits/enumerate@^1.0.15":
+  version "1.0.15"
+  resolved "https://registry.yarnpkg.com/@js-bits/enumerate/-/enumerate-1.0.15.tgz#94fb55b89ffffb1c3f501b3ac3e07c537c1f3b54"
+  integrity sha512-xFC3q4L+rLXhre7O653pQ3ZuQxATZw+tY4KnVgmya2XPjcFF0S0fAKo0dUedE6xEiQsfz8xh7SSGJngUs4wbOA==
   dependencies:
     "@js-bits/typedef-utils" "^1.0.4"
 

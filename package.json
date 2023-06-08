@@ -22,7 +22,8 @@
   },
   "scripts": {
     "build": "rimraf ./dist && yarn build:dts && rollup ./index.js --format cjs --file dist/index.cjs --exports default",
-    "build:dts": "tsc ./index.js --allowJs --emitDeclarationOnly --declaration --outDir dist",
+    "build:dts": "tsc ./index.js --allowJs --emitDeclarationOnly --declaration --outDir dist && yarn replace:symbols ./dist/index.d.ts",
+    "replace:symbols": "node node_modules/@js-bits/enumerate/scripts/replace-unique-symbols",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --verbose",
     "test-cjs": "jest --verbose",
     "test-watch": "yarn test --watch",
@@ -66,6 +67,6 @@
     "extends": "@js-bits/eslint-config/.eslintrc.json"
   },
   "dependencies": {
-    "@js-bits/enumerate": "^1.0.10"
+    "@js-bits/enumerate": "^1.0.15"
   }
 }
