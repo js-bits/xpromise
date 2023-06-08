@@ -50,9 +50,9 @@ declare class ExtendablePromise<T> extends Promise<T> {
      * @returns {this}
      */
     reject(reason: Error): this;
-    [UniqueSymbols.UNIQUE_SYMBOL1]: Resolve<T>;
-    [UniqueSymbols.UNIQUE_SYMBOL2]: Reject;
-    [UniqueSymbols.UNIQUE_SYMBOL0]: (resolve: Resolve<T>, reject: Reject, ...rest: unknown[]) => void;
+    [UniqueSymbols.UNIQUE_SYMBOL493]: Resolve<T>;
+    [UniqueSymbols.UNIQUE_SYMBOL494]: Reject;
+    [UniqueSymbols.UNIQUE_SYMBOL492]: (resolve: Resolve<T>, reject: Reject, ...rest: unknown[]) => void;
 }
 
 import * as UniqueSymbols from '@js-bits/enumerate/types/unique-symbols';
