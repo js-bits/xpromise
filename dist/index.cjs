@@ -62,7 +62,15 @@ class ExtendablePromise extends Promise {
       resolve = res;
       reject = rej;
     });
+
+    /**
+     * @readonly
+     */
     this[ø.resolve] = resolve;
+
+    /**
+     * @readonly
+     */
     this[ø.reject] = reject;
 
     if (typeof executor === 'function') {
