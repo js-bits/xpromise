@@ -27,7 +27,7 @@
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --verbose",
     "test-cjs": "jest --verbose",
     "test-watch": "yarn test --watch",
-    "lint": "tsc --noEmit && eslint '**/*.{js,jsx}'",
+    "lint": "tsc --noEmit && eslint '**/*.{js,jsx,ts,tsx}'",
     "prepare": "husky install"
   },
   "repository": {
