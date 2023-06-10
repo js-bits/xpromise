@@ -35,18 +35,6 @@ const ERRORS = enumerate.ts(
  */
 class ExtendablePromise extends Promise {
   /**
-   * @type {'ExtendablePromise|InstantiationError'}
-   * @readonly
-   */
-  static InstantiationError = ERRORS.InstantiationError;
-
-  /**
-   * @type {'ExtendablePromise|ExecutionError'}
-   * @readonly
-   */
-  static ExecutionError = ERRORS.ExecutionError;
-
-  /**
    * Creates new `ExtendablePromise` instance.
    * @param {(resolve:Resolve<T>, reject:Reject, ...rest:unknown[]) => void} executor - A function to be executed by the `.execute()` method
    * @throws {typeof ExtendablePromise.InstantiationError}
@@ -129,5 +117,9 @@ class ExtendablePromise extends Promise {
 
 // https://stackoverflow.com/a/60328122
 Object.defineProperty(ExtendablePromise, Symbol.species, { get: () => Promise });
+
+// Assigning properties one by one helps typescript to declare the namespace properly
+ExtendablePromise.ExecutionError = ERRORS.ExecutionError;
+ExtendablePromise.InstantiationError = ERRORS.InstantiationError;
 
 export default ExtendablePromise;

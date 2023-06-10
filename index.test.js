@@ -32,12 +32,13 @@ describe('ExtendablePromise', () => {
     describe('when an invalid executor is passed', () => {
       describe('when null is passed', () => {
         test('should throw a sync error', () => {
-          expect.assertions(3);
+          expect.assertions(4);
           promise = undefined;
           try {
             promise = new ExtendablePromise(null);
           } catch (error) {
             expect(error.name).toEqual('ExtendablePromise|InstantiationError');
+            expect(error.name).toEqual(ExtendablePromise.InstantiationError);
             expect(error.message).toEqual('Invalid executor type: null');
           }
           expect(promise).toBeUndefined();
