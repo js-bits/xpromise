@@ -10,12 +10,14 @@ const ø = enumerate.ts(`
   reject
 `);
 
+const ErrorPrefix = 'ExtendablePromise|';
+
 const ERRORS = enumerate.ts(
   `
   InstantiationError
   ExecutionError
 `,
-  Prefix('ExtendablePromise|')
+  Prefix(ErrorPrefix)
 );
 
 /**
@@ -118,8 +120,15 @@ class ExtendablePromise extends Promise {
 // https://stackoverflow.com/a/60328122
 Object.defineProperty(ExtendablePromise, Symbol.species, { get: () => Promise });
 
+/**
+ * @template T
+ * @typedef {T extends `${ErrorPrefix}${infer S}` ? `*|${S}`: never} ErrorName
+ */
+
 // Assigning properties one by one helps typescript to declare the namespace properly
-ExtendablePromise.ExecutionError = ERRORS.ExecutionError;
-ExtendablePromise.InstantiationError = ERRORS.InstantiationError;
+ExtendablePromise.ExecutionError = /** @type {ErrorName<typeof ERRORS.ExecutionError>} */ (ERRORS.ExecutionError);
+ExtendablePromise.InstantiationError = /** @type {ErrorName<typeof ERRORS.InstantiationError>} */ (
+  ERRORS.InstantiationError
+);
 
 export default ExtendablePromise;
