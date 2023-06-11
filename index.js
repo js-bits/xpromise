@@ -1,7 +1,5 @@
 import enumerate from '@js-bits/enumerate';
 
-const { Prefix } = enumerate;
-
 // pseudo-private properties emulation in order to avoid source code transpiling
 // TODO: replace with #privateField syntax when it gains wide support
 const ø = enumerate.ts(`
@@ -114,7 +112,7 @@ const ERRORS = enumerate.ts(
   InstantiationError
   ExecutionError
 `,
-  Prefix(`${ExtendablePromise.name}|`)
+  `${ExtendablePromise.name}|`
 );
 
 // https://stackoverflow.com/a/60328122
