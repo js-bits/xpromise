@@ -49,7 +49,7 @@ describe('ExtendablePromise', () => {
           expect.assertions(3);
           promise = undefined;
           try {
-            // @ts-expect-error Argument of type 'number' is not assignable to parameter of type 'Function'.
+            // @ts-expect-error ts(2345)
             promise = new ExtendablePromise(123);
           } catch (error) {
             expect(error.name).toEqual('ExtendablePromise|InstantiationError');
@@ -190,7 +190,7 @@ describe('ExtendablePromise', () => {
     });
     test('should return only first argument', () => {
       expect.assertions(1);
-      // @ts-expect-error Expected 1 arguments, but got 3.
+      // @ts-expect-error ts(2554)
       return promise.resolve(11, 22, 33).then((...args) => {
         expect(args).toEqual([11]);
       });
@@ -370,7 +370,7 @@ describe('Promise', () => {
     });
     test('should return only first argument', () => {
       expect.assertions(1);
-      // @ts-expect-error Expected 0-1 arguments, but got 3.
+      // @ts-expect-error ts(2554)
       const promise = Promise.resolve(1, 2, 3);
       return promise.then((...args) => {
         expect(args).toEqual([1]);

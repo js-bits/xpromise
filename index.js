@@ -10,16 +10,6 @@ const ø = enumerate.ts(`
   reject
 `);
 
-const ErrorPrefix = 'ExtendablePromise|';
-
-const ERRORS = enumerate.ts(
-  `
-  InstantiationError
-  ExecutionError
-`,
-  Prefix(ErrorPrefix)
-);
-
 /**
  * @template T
  * @typedef {(value: T | PromiseLike<T>, ...rest:unknown[]) => void} Resolve
@@ -65,6 +55,7 @@ class ExtendablePromise extends Promise {
       this[ø.executor] = executor;
     } else {
       const error = new Error(`Invalid executor type: ${executor === null ? 'null' : typeof executor}`);
+      // eslint-disable-next-line no-use-before-define
       error.name = ERRORS.InstantiationError;
       throw error;
     }
@@ -72,7 +63,7 @@ class ExtendablePromise extends Promise {
 
   // eslint-disable-next-line class-methods-use-this
   get [Symbol.toStringTag]() {
-    return 'ExtendablePromise';
+    return ExtendablePromise.name;
   }
 
   /**
@@ -88,6 +79,7 @@ class ExtendablePromise extends Promise {
       } catch (cause) {
         const error = new Error('Promise execution failed. See "cause" property for details');
         error.cause = cause;
+        // eslint-disable-next-line no-use-before-define
         error.name = ERRORS.ExecutionError;
         this.reject(error);
       }
@@ -117,18 +109,24 @@ class ExtendablePromise extends Promise {
   }
 }
 
+/**
+ * Remove prefix for typescript to make error names overridable
+ * @type {import("@js-bits/enumerate/types/types").EnumType<"InstantiationError ExecutionError", StringConstructor>}
+ */
+// @ts-expect-error ts(2322)
+const ERRORS = enumerate.ts(
+  `
+  InstantiationError
+  ExecutionError
+`,
+  Prefix(`${ExtendablePromise.name}|`)
+);
+
 // https://stackoverflow.com/a/60328122
 Object.defineProperty(ExtendablePromise, Symbol.species, { get: () => Promise });
 
-/**
- * @template T
- * @typedef {T extends `${ErrorPrefix}${infer S}` ? `*|${S}`: never} ErrorName
- */
-
 // Assigning properties one by one helps typescript to declare the namespace properly
-ExtendablePromise.ExecutionError = /** @type {ErrorName<typeof ERRORS.ExecutionError>} */ (ERRORS.ExecutionError);
-ExtendablePromise.InstantiationError = /** @type {ErrorName<typeof ERRORS.InstantiationError>} */ (
-  ERRORS.InstantiationError
-);
+ExtendablePromise.ExecutionError = ERRORS.ExecutionError;
+ExtendablePromise.InstantiationError = ERRORS.InstantiationError;
 
 export default ExtendablePromise;
