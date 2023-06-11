@@ -109,11 +109,6 @@ class ExtendablePromise extends Promise {
   }
 }
 
-/**
- * Remove prefix for typescript to make error names overridable
- * @type {import("@js-bits/enumerate/types/types").EnumType<"InstantiationError ExecutionError", StringConstructor>}
- */
-// @ts-expect-error ts(2322)
 const ERRORS = enumerate.ts(
   `
   InstantiationError
