@@ -33,8 +33,10 @@ describe('ExtendablePromise', () => {
       describe('when null is passed', () => {
         test('should throw a sync error', () => {
           expect.assertions(4);
+          // @ts-ignore
           promise = undefined;
           try {
+            // @ts-expect-error ts(2345)
             promise = new ExtendablePromise(null);
           } catch (error) {
             expect(error.name).toEqual('ExtendablePromise|InstantiationError');
@@ -47,6 +49,7 @@ describe('ExtendablePromise', () => {
       describe('when invalid type is passed', () => {
         test('should throw a sync error', () => {
           expect.assertions(3);
+          // @ts-ignore
           promise = undefined;
           try {
             // @ts-expect-error ts(2345)
@@ -72,9 +75,11 @@ describe('ExtendablePromise', () => {
                 this.execute();
               }
             }
+            // @ts-ignore
             promise = undefined;
             let result = 'unchanged';
             try {
+              // @ts-ignore
               promise = new MyPromise();
               result = /** @type {string} */ (await promise);
             } catch (error) {
@@ -96,7 +101,9 @@ describe('ExtendablePromise', () => {
                 this.execute();
               }
             }
+            // @ts-ignore
             promise = undefined;
+            // @ts-ignore
             promise = new MyPromise();
             const result = await promise;
             expect(promise).toEqual(expect.any(MyPromise));
@@ -246,6 +253,7 @@ describe('ExtendablePromise', () => {
         const anotherPromise = new Promise((res, rej) => {
           reject = rej;
         });
+        // @ts-ignore
         reject('error');
         let result;
         try {

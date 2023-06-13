@@ -9,15 +9,6 @@ const ø = enumerate.ts(`
 `);
 
 /**
- * @template T
- * @typedef {(value: T | PromiseLike<T>, ...rest:unknown[]) => void} Resolve
- */
-
-/**
- * @typedef {(reason?: Error) => void} Reject
- */
-
-/**
  * Allows extension of JavaScript's standard, built-in `Promise` class.
  * Decouples an asynchronous operation that ties an outcome to a promise from the constructor.
  * @template T
@@ -26,13 +17,13 @@ const ø = enumerate.ts(`
 class ExtendablePromise extends Promise {
   /**
    * Creates new `ExtendablePromise` instance.
-   * @param {(resolve:Resolve<T>, reject:Reject, ...rest:unknown[]) => void} executor - A function to be executed by the `.execute()` method
+   * @param {import('./types').ExecutorFunc<T>} executor - A function to be executed by the `.execute()` method
    * @throws {typeof ExtendablePromise.InstantiationError}
    */
   constructor(executor) {
-    /** @type {Resolve<T>} */
+    /** @type {import('./types').Resolve<T>} */
     let resolve;
-    /** @type {Reject} */
+    /** @type {import('./types').Reject} */
     let reject;
     super((res, rej) => {
       resolve = res;
@@ -42,14 +33,17 @@ class ExtendablePromise extends Promise {
     /**
      * @readonly
      */
+    // @ts-expect-error ts(2454)
     this[ø.resolve] = resolve;
 
     /**
      * @readonly
      */
+    // @ts-expect-error ts(2454)
     this[ø.reject] = reject;
 
     if (typeof executor === 'function') {
+      /** @type {import('./types').ExecutorFunc<T> | undefined} */
       this[ø.executor] = executor;
     } else {
       const error = new Error(`Invalid executor type: ${executor === null ? 'null' : typeof executor}`);
@@ -73,7 +67,11 @@ class ExtendablePromise extends Promise {
   execute(/** @type {unknown[]} */ ...args) {
     if (this[ø.executor]) {
       try {
-        this[ø.executor](this.resolve.bind(this), this.reject.bind(this), ...args);
+        /** @type {import('./types').ExecutorFunc<T>} */ (this[ø.executor])(
+          this.resolve.bind(this),
+          this.reject.bind(this),
+          ...args
+        );
       } catch (cause) {
         const error = new Error('Promise execution failed. See "cause" property for details');
         error.cause = cause;
